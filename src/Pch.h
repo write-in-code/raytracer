@@ -28,6 +28,7 @@
 #include "Logging.h"
 #include "DeleterFunc.h"
 #include "ScopeExit.h"
+#include "Casting.h"
 #include "SmartPtr.h"
 #include "SDLDefs.h"
 #include "Utility.h"

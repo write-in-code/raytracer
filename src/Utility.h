@@ -88,12 +88,3 @@ inline glm::vec3 LinearToGamma(const glm::vec3 &linearComponent)
 {
     return glm::vec3(LinearToGamma(linearComponent.x), LinearToGamma(linearComponent.y), LinearToGamma(linearComponent.z));
 }
-
-template <typename To, typename From>
-inline To narrow_cast(From value)
-{
-    To res = static_cast<From>(value);
-    assert(static_cast<From>(res) == value);
-
-    return res;
-}
