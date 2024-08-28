@@ -12,6 +12,7 @@ public:
     int imageWidth = 100;
     int samplesPerPixel = 10;
     int maxDepth = 10;
+    float vfov = 90;
 
 private:
     void Initialize();

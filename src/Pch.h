@@ -19,6 +19,7 @@
 #include <string_view>
 #include <optional>
 #include <filesystem>
+#include <format>
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
