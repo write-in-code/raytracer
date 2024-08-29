@@ -16,6 +16,8 @@ public:
     glm::vec3 lookFrom = glm::vec3(0.f);
     glm::vec3 lookAt = glm::vec3(0.f, 0.f, -1.f);
     glm::vec3 vUp = glm::vec3(0.f, 1.f, 0.f);
+    float defocusAngle = 0.f;
+    float focusDist = 10.f;
 
 private:
     void Initialize();
@@ -30,4 +32,6 @@ private:
     glm::vec3 pixelDeltaU;
     glm::vec3 pixelDeltaV;
     glm::vec3 u, v, w;
+    glm::vec3 defocusDiskU;
+    glm::vec3 defocusDiskV;
 };

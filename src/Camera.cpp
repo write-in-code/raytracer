@@ -41,10 +41,9 @@ void Camera::Initialize()
     pixelSamplesScale = 1.f / samplesPerPixel;
     center = lookFrom;
 
-    float focalLength = (lookFrom - lookAt).length();
     float theta = glm::radians(vFov);
     float h = glm::tan(theta / 2.f);
-    float viewportHeight = 2.f * h * focalLength;
+    float viewportHeight = 2.f * h * focusDist;
     float viewportWidth = viewportHeight * (float(imageWidth) / imageHeight);
 
     w = glm::normalize(lookFrom - lookAt);
@@ -57,8 +56,12 @@ void Camera::Initialize()
     pixelDeltaU = viewportU / static_cast<float>(imageWidth);
     pixelDeltaV = viewportV / static_cast<float>(imageHeight);
 
-    glm::vec3 viewportUpperLeft = center - (focalLength * w) - viewportU / 2.f - viewportV / 2.f;
+    glm::vec3 viewportUpperLeft = center - (focusDist * w) - viewportU / 2.f - viewportV / 2.f;
     pixel00Loc = viewportUpperLeft + 0.5f * (pixelDeltaU + pixelDeltaV);
+
+    float defocusRadius = focusDist * glm::tan(glm::radians(defocusAngle / 2.f));
+    defocusDiskU = u * defocusRadius;
+    defocusDiskV = v * defocusRadius;
 }
 
 Ray Camera::GetRay(int i, int j) const
@@ -66,7 +69,13 @@ Ray Camera::GetRay(int i, int j) const
     glm::vec3 offset = SampleSquare();
     glm::vec3 pixelSample = pixel00Loc + ((i + offset.x) * pixelDeltaU) + ((j + offset.y) * pixelDeltaV);
 
-    glm::vec3 rayOrigin = center;
+    auto defocusDiskSample = [this]
+    {
+        glm::vec3 p = RandomInUnitDisk();
+        return center + (p.x * defocusDiskU) + (p.y * defocusDiskV);
+    };
+
+    glm::vec3 rayOrigin = (defocusAngle <= 0.f) ? center : defocusDiskSample();
     glm::vec3 rayDir = pixelSample - rayOrigin;
 
     return Ray(rayOrigin, rayDir);

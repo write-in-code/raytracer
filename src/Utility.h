@@ -58,6 +58,18 @@ inline glm::vec3 RandomInUnitSphere()
     }
 }
 
+inline glm::vec3 RandomInUnitDisk()
+{
+    while (true)
+    {
+        auto p = glm::vec3(RandomFloat(-1.f, 1.f), RandomFloat(-1.f, 1.f), 0.f);
+        if (glm::dot(p, p) < 1.f)
+        {
+            return p;
+        }
+    }
+}
+
 inline glm::vec3 RandomUnitVec()
 {
     return glm::normalize(RandomInUnitSphere());

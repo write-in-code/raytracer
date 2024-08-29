@@ -30,10 +30,13 @@ ImageInfo Render()
     cam.samplesPerPixel = SAMPLES_PER_PIXEL;
     cam.maxDepth = MAX_DEPTH;
 
-    cam.vFov = 90;
+    cam.vFov = 20;
     cam.lookFrom = glm::vec3(-2.f, 2.f, 1.f);
     cam.lookAt = glm::vec3(0.f, 0.f, -1.f);
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 10.f;
+    cam.focusDist = 3.4f;
 
     auto startTime = std::chrono::high_resolution_clock::now();
     auto image = cam.Render(world);
