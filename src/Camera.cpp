@@ -39,21 +39,25 @@ void Camera::Initialize()
     imageHeight = (imageHeight < 1) ? 1 : imageHeight;
 
     pixelSamplesScale = 1.f / samplesPerPixel;
-    center = glm::vec3(0.f);
+    center = lookFrom;
 
-    float focalLength = 1.f;
-    float theta = glm::radians(vfov);
+    float focalLength = (lookFrom - lookAt).length();
+    float theta = glm::radians(vFov);
     float h = glm::tan(theta / 2.f);
     float viewportHeight = 2.f * h * focalLength;
     float viewportWidth = viewportHeight * (float(imageWidth) / imageHeight);
 
-    auto viewportU = glm::vec3(viewportWidth, 0, 0);
-    auto viewportV = glm::vec3(0, -viewportHeight, 0);
+    w = glm::normalize(lookFrom - lookAt);
+    u = glm::normalize(glm::cross(vUp, w));
+    v = glm::cross(w, u);
+
+    glm::vec3 viewportU = viewportWidth * u;
+    glm::vec3 viewportV = viewportHeight * -v;
 
     pixelDeltaU = viewportU / static_cast<float>(imageWidth);
     pixelDeltaV = viewportV / static_cast<float>(imageHeight);
 
-    glm::vec3 viewportUpperLeft = center - glm::vec3(0, 0, focalLength) - viewportU / 2.f - viewportV / 2.f;
+    glm::vec3 viewportUpperLeft = center - (focalLength * w) - viewportU / 2.f - viewportV / 2.f;
     pixel00Loc = viewportUpperLeft + 0.5f * (pixelDeltaU + pixelDeltaV);
 }
 

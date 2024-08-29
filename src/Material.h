@@ -40,7 +40,8 @@ private:
 class Dielectric : public Material
 {
 public:
-    Dielectric(float refractionIndex) : m_refractionIndex(refractionIndex) {}
+    Dielectric(float refractionIndex)
+        : m_refractionIndex(refractionIndex) {}
 
     bool Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const override;
 
