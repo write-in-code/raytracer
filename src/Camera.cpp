@@ -77,8 +77,9 @@ Ray Camera::GetRay(int i, int j) const
 
     glm::vec3 rayOrigin = (defocusAngle <= 0.f) ? center : defocusDiskSample();
     glm::vec3 rayDir = pixelSample - rayOrigin;
+    float rayTime = RandomFloat();
 
-    return Ray(rayOrigin, rayDir);
+    return Ray(rayOrigin, rayDir, rayTime);
 }
 
 glm::vec3 Camera::SampleSquare() const

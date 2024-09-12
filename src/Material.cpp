@@ -1,14 +1,14 @@
 #include "Pch.h"
 #include "Material.h"
 
-bool Lambertian::Scatter(const Ray &, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const
+bool Lambertian::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const
 {
     glm::vec3 scatterDirection = rec.normal + RandomUnitVec();
 
     if (NearZero(scatterDirection))
         scatterDirection = rec.normal;
 
-    scattered = Ray(rec.p, scatterDirection);
+    scattered = Ray(rec.p, scatterDirection, rIn.Time());
     attenuation = m_albedo;
     return true;
 }
@@ -17,7 +17,7 @@ bool Metal::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenuation
 {
     glm::vec3 reflected = glm::reflect(rIn.Direction(), rec.normal);
     reflected = glm::normalize(reflected) + (m_fuzz * RandomUnitVec());
-    scattered = Ray(rec.p, reflected);
+    scattered = Ray(rec.p, reflected, rIn.Time());
     attenuation = m_albedo;
     return glm::dot(scattered.Direction(), rec.normal) > 0;
 }
@@ -41,6 +41,6 @@ bool Dielectric::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenu
 
     glm::vec3 direction = (ri * sinTheta > 1.f) || reflectance(cosTheta, m_refractionIndex) > RandomFloat() ? glm::reflect(unitDirection, rec.normal) : glm::refract(unitDirection, rec.normal, ri);
 
-    scattered = Ray(rec.p, direction);
+    scattered = Ray(rec.p, direction, rIn.Time());
     return true;
 }

@@ -4,8 +4,8 @@
 #include "Sphere.h"
 
 constexpr float ASPECT_RATIO = 16.f / 9.f;
-constexpr int IMAGE_WIDTH = 1200;
-constexpr int SAMPLES_PER_PIXEL = 500;
+constexpr int IMAGE_WIDTH = 400;
+constexpr int SAMPLES_PER_PIXEL = 100;
 constexpr int MAX_DEPTH = 50;
 
 ImageInfo Render()
@@ -30,7 +30,8 @@ ImageInfo Render()
                 {
                     glm::vec3 albedo = RandomVec() * RandomVec();
                     sphereMaterial = std::make_shared<Lambertian>(albedo);
-                    world.Add(std::make_shared<Sphere>(center, 0.2f, sphereMaterial));
+                    glm::vec3 center2 = center + glm::vec3(0.f, RandomFloat(0.f, 0.5f), 0.f);
+                    world.Add(std::make_shared<Sphere>(center, center2, 0.2f, sphereMaterial));
                 }
                 else if (chooseMat < 0.95)
                 {
