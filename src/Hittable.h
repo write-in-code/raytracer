@@ -1,6 +1,7 @@
 #pragma once
 #include "Interval.h"
 #include "Ray.h"
+#include "AABB.h"
 
 DEFINE_CLASS_PTR(Material);
 
@@ -27,4 +28,5 @@ public:
     virtual ~Hittable() = default;
 
     virtual bool Hit(const Ray &r, Interval rayT, HitRecord &rec) const = 0;
+    virtual AABB BoundingBox() const = 0;
 };

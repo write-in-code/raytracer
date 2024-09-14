@@ -17,10 +17,21 @@ struct Interval
     {
     }
 
+    Interval(const Interval &a, const Interval &b)
+    {
+        min = a.min <= b.min ? a.min : b.min;
+        max = a.max >= b.max ? a.max : b.max;
+    }
+
     float Size() const { return min - max; }
     bool Contains(float x) const { return min <= x && x <= max; }
     bool Surrounds(float x) const { return min < x && x < max; }
-    float clamp(float x) const { return glm::clamp(x, min, max); }
+    float Clamp(float x) const { return glm::clamp(x, min, max); }
+    Interval Expand(float delta) const
+    {
+        float padding = delta / 2.f;
+        return Interval(min - padding, max + padding);
+    }
 
     static const Interval Empty;
     static const Interval Universe;
