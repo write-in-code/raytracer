@@ -25,13 +25,13 @@ private:
     glm::vec3 SampleSquare() const;
     glm::vec3 RayColor(const Ray &r, int depth, const Hittable &world) const;
 
-    int imageHeight;
-    float pixelSamplesScale;
-    glm::vec3 center;
-    glm::vec3 pixel00Loc;
-    glm::vec3 pixelDeltaU;
-    glm::vec3 pixelDeltaV;
-    glm::vec3 u, v, w;
-    glm::vec3 defocusDiskU;
-    glm::vec3 defocusDiskV;
+    int m_imageHeight;
+    float m_pixelSamplesScale;
+    glm::vec3 m_center;
+    glm::vec3 m_pixel00Loc;
+    glm::vec3 m_pixelDeltaU;
+    glm::vec3 m_pixelDeltaV;
+    glm::vec3 m_u, m_v, m_w;
+    glm::vec3 m_defocusDiskU;
+    glm::vec3 m_defocusDiskV;
 };

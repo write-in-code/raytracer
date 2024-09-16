@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "Camera.h"
 #include "Sphere.h"
+#include "BVHNode.h"
 
 constexpr float ASPECT_RATIO = 16.f / 9.f;
 constexpr int IMAGE_WIDTH = 400;
@@ -57,6 +58,8 @@ ImageInfo Render()
 
     MaterialPtr material3 = std::make_shared<Metal>(glm::vec3(0.7f, 0.6f, 0.5f), 0.f);
     world.Add(std::make_shared<Sphere>(glm::vec3(4.f, 1.f, 0.f), 1.f, material3));
+
+    world = HittableList(std::make_shared<BVHNode>(world));
 
     Camera cam;
     cam.aspectRatio = ASPECT_RATIO;

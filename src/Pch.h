@@ -20,6 +20,8 @@
 #include <optional>
 #include <filesystem>
 #include <format>
+#include <algorithm>
+#include <functional>
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>

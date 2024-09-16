@@ -10,6 +10,7 @@ namespace detail
         std::random_device randomDevice;
         std::mt19937 randomGen{randomDevice()};
         std::uniform_real_distribution<float> uniformFloatDistribution;
+        std::uniform_int_distribution<int> uniformIntDistribution;
     };
 
     inline Rand g_rand;
@@ -32,6 +33,15 @@ inline float RandomFloat(float min, float max)
     return min + RandomFloat() * (max - min);
 #else
     return std::uniform_real_distribution<float>(min, max)(detail::g_rand.randomGen);
+#endif
+}
+
+inline int RandomInt(int min, int max)
+{
+#if USE_FASTER_RAND
+    return min + rand() % (max - min + 1);
+#else
+    return std::uniform_int_distribution<int>(min, max)(detail::g_rand.randomGen);
 #endif
 }
 
