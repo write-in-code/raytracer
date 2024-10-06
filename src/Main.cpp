@@ -86,7 +86,7 @@ int RenderToWindow(const ImageInfo &imageInfo)
 
     if (!tex)
     {
-        ERROR("SDL_CreateTextureFromSurface Error: ", SDL_GetError());
+        ERROR("SDL_CreateTextureFromSurface Error: {}", SDL_GetError());
         return EXIT_FAILURE;
     }
 

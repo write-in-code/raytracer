@@ -26,7 +26,7 @@ BVHNode::BVHNode(std::vector<HittablePtr> &objects, size_t start, size_t end)
     default:
         std::sort(std::begin(objects) + start, std::begin(objects) + end, comparator);
 
-        float mid = start + objectSpan / 2;
+        size_t mid = start + objectSpan / 2;
         m_left = std::make_shared<BVHNode>(objects, start, mid);
         m_right = std::make_shared<BVHNode>(objects, mid, end);
     }

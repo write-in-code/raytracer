@@ -10,6 +10,6 @@ file(GLOB RAYTRACER_SRC
 add_executable(raytracer ${RAYTRACER_SRC})
 target_precompile_headers(raytracer PRIVATE "src/Pch.h")
 
-find_package(glm REQUIRED)
-find_package(SDL2 REQUIRED)
-target_link_libraries(raytracer glm::glm-header-only SDL2::SDL2)
+find_package(glm CONFIG REQUIRED)
+find_package(SDL2 CONFIG REQUIRED)
+target_link_libraries(raytracer PRIVATE glm::glm-header-only SDL2::SDL2)
