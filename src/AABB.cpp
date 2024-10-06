@@ -83,3 +83,18 @@ bool AABB::Hit(const Ray &r, Interval rayT) const
 
     return true;
 }
+
+int AABB::LongestAxis() const
+{
+    if (x.Size() > y.Size())
+    {
+        return x.Size() > z.Size() ? 0 : 2;
+    }
+    else
+    {
+        return y.Size() > z.Size() ? 1 : 2;
+    }
+}
+
+const AABB AABB::Empty = AABB(Interval::Empty, Interval::Empty, Interval::Empty);
+const AABB AABB::Universe = AABB(Interval::Universe, Interval::Universe, Interval::Universe);

@@ -3,7 +3,13 @@
 
 BVHNode::BVHNode(std::vector<HittablePtr> &objects, size_t start, size_t end)
 {
-    int axis = RandomInt(0, 2);
+    m_bbox = AABB::Empty;
+    for (size_t objectIndex = start; objectIndex < end; ++objectIndex)
+    {
+        m_bbox = AABB(m_bbox, objects[objectIndex]->BoundingBox());
+    }
+
+    int axis = m_bbox.LongestAxis();
 
     std::function<bool(const HittablePtr &, const HittablePtr &)> comparators[] = {
         BoxXCompare,

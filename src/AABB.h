@@ -12,8 +12,11 @@ public:
 
     const Interval &AxisInterval(int n) const;
     bool Hit(const Ray &r, Interval rayT) const;
+    int LongestAxis() const;
 
     Interval x;
     Interval y;
     Interval z;
+
+    static const AABB Empty, Universe;
 };
