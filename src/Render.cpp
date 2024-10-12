@@ -10,8 +10,13 @@ constexpr int IMAGE_WIDTH = 400;
 constexpr int SAMPLES_PER_PIXEL = 100;
 constexpr int MAX_DEPTH = 50;
 
+#define BOUNCING_SPHERES  1
+#define CHECKERED_SPHERES 2
+#define SCENE             CHECKERED_SPHERES
+
 ImageInfo Render()
 {
+#if SCENE == BOUNCING_SPHERES
     HittableList world;
 
     TexturePtr checker = std::make_shared<CheckerTexture>(0.32f, glm::vec3(.2f, .3f, .1f), glm::vec3(.9f));
@@ -75,6 +80,28 @@ ImageInfo Render()
 
     cam.defocusAngle = 0.6f;
     cam.focusDist = 10.f;
+#elif SCENE == CHECKERED_SPHERES
+    HittableList world;
+
+    TexturePtr checker = std::make_shared<CheckerTexture>(0.32f, glm::vec3(.2f, .3f, .1f), glm::vec3(.9f));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -10.f, 0.f), 10.f, std::make_shared<Lambertian>(checker)));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 10.f, 0.f), 10.f, std::make_shared<Lambertian>(checker)));
+
+    Camera cam;
+    cam.aspectRatio = ASPECT_RATIO;
+    cam.imageWidth = IMAGE_WIDTH;
+    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
+    cam.maxDepth = MAX_DEPTH;
+
+    cam.vFov = 20;
+    cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
+    cam.lookAt = glm::vec3(0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+#else
+    #error "Invalid scene"
+#endif
 
     auto startTime = std::chrono::high_resolution_clock::now();
     auto image = cam.Render(world);
