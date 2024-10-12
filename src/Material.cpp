@@ -9,7 +9,7 @@ bool Lambertian::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenu
         scatterDirection = rec.normal;
 
     scattered = Ray(rec.p, scatterDirection, rIn.Time());
-    attenuation = m_albedo;
+    attenuation = m_tex->Value(rec.u, rec.v, rec.p);
     return true;
 }
 

@@ -4,6 +4,7 @@ import subprocess
 import os
 import sys
 import shutil
+import argparse
 
 PROJECT_FOLDER = os.path.dirname(os.path.realpath(__file__))
 BUILD_FOLDER = os.path.join(PROJECT_FOLDER, 'build')
@@ -12,6 +13,14 @@ DEFAULT_BUILD_TYPE = 'Debug'
 CMAKE_CMD = 'cmake'
 CMAKE_CXX_FLAGS = f'-DCMAKE_CXX_FLAGS={DEFAULT_COMPILER_FLAGS}'
 CMAKE_BUILD_TYPE = f'-DCMAKE_BUILD_TYPE={DEFAULT_BUILD_TYPE}'
+
+parser = argparse.ArgumentParser(
+        prog='cmake_configure.py',
+        description='Utility command line tool to configure CMake')
+
+parser.add_argument('--clean', help='Remove build directory and reconfigure', action='store_true')
+args = parser.parse_args()
+
 
 print("""
  *******       **     **    ** ********** *******       **       ******  ******** *******  
@@ -26,14 +35,17 @@ print("""
 
 print()
 print(f'Project folder: {PROJECT_FOLDER}')
-print(f'Build folder: {BUILD_FOLDER}')
-print(f'Build type: {DEFAULT_BUILD_TYPE}')
+print(f'  Build folder: {BUILD_FOLDER}')
+print(f'    Build type: {DEFAULT_BUILD_TYPE}')
 print(f'Compiler flags: {DEFAULT_COMPILER_FLAGS}')
+print()
 
-if os.path.exists(BUILD_FOLDER):
-    shutil.rmtree(BUILD_FOLDER)
+if args.clean:
+    print(f' - Discarding {BUILD_FOLDER}')
+    if os.path.exists(BUILD_FOLDER):
+        shutil.rmtree(BUILD_FOLDER)
 
-os.mkdir(BUILD_FOLDER)
+    os.mkdir(BUILD_FOLDER)
 
 print()
 

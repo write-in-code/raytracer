@@ -1,6 +1,7 @@
 #pragma once
 #include "Ray.h"
 #include "Hittable.h"
+#include "Texture.h"
 
 DEFINE_CLASS_PTR(Material);
 
@@ -16,12 +17,15 @@ class Lambertian : public Material
 {
 public:
     Lambertian(const glm::vec3 &albedo)
-        : m_albedo(albedo) {}
+        : m_tex(std::make_shared<SolidColor>(albedo)) {}
+
+    Lambertian(const TexturePtr &tex)
+        : m_tex(tex) {}
 
     bool Scatter(const Ray &, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const override;
 
 private:
-    glm::vec3 m_albedo;
+    TexturePtr m_tex;
 };
 
 class Metal : public Material

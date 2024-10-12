@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Sphere.h"
 #include "BVHNode.h"
+#include "Texture.h"
 
 constexpr float ASPECT_RATIO = 16.f / 9.f;
 constexpr int IMAGE_WIDTH = 400;
@@ -13,8 +14,8 @@ ImageInfo Render()
 {
     HittableList world;
 
-    MaterialPtr groundMaterial = std::make_shared<Lambertian>(glm::vec3(0.5f));
-    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -1000.f, 0.f), 1000.f, groundMaterial));
+    TexturePtr checker = std::make_shared<CheckerTexture>(0.32f, glm::vec3(.2f, .3f, .1f), glm::vec3(.9f));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -1000.f, 0.f), 1000.f, std::make_shared<Lambertian>(checker)));
 
     for (int a = -11; a < 11; ++a)
     {
