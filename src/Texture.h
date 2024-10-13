@@ -1,4 +1,6 @@
 #pragma once
+#include "RtwImage.h"
+#include "Interval.h"
 
 DEFINE_CLASS_PTR(Texture);
 
@@ -48,4 +50,29 @@ private:
     float m_invScale;
     TexturePtr m_even;
     TexturePtr m_odd;
+};
+
+class ImageTexture : public Texture
+{
+public:
+    ImageTexture(const char *imageFilename)
+        : m_image(imageFilename) {}
+
+    glm::vec3 Value(float u, float v, const glm::vec3 &) const override
+    {
+        if (m_image.IsNull())
+        {
+            return glm::vec3(0.f, 1.f, 1.f);
+        }
+
+        u = Interval(0.f, 1.f).Clamp(u);
+        v = 1.f - Interval(0.f, 1.f).Clamp(v);
+
+        auto i = int(u * m_image.Width());
+        auto j = int(v * m_image.Height());
+        return m_image.PixelData(i, j);
+    }
+
+private:
+    RtwImage m_image;
 };

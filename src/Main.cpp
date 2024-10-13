@@ -1,5 +1,6 @@
 #include "Pch.h"
 #include "Render.h"
+#include <SDL2/SDL_image.h>
 
 #define OPTIMIZE_DENORMALS 0
 #define SAVE_BMP           1
@@ -57,6 +58,16 @@ int RenderToWindow(const ImageInfo &imageInfo)
 
     ON_SCOPE_EXIT([]
         { SDL_Quit(); });
+
+    int imgInitFlags = IMG_INIT_PNG | IMG_INIT_JPG;
+    if (IMG_Init(imgInitFlags) != imgInitFlags)
+    {
+        ERROR("IMG_Init Error: {}", IMG_GetError());
+        return EXIT_FAILURE;
+    }
+
+    ON_SCOPE_EXIT([]
+        { IMG_Quit(); });
 
     auto window = SDL_WindowUPtr(SDL_CreateWindow("Raytracing", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, imageInfo.width * WINDOW_SIZE_MULT, imageInfo.height * WINDOW_SIZE_MULT, SDL_WINDOW_SHOWN));
     if (!window)

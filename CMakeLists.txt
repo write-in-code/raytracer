@@ -12,4 +12,5 @@ target_precompile_headers(raytracer PRIVATE "src/Pch.h")
 
 find_package(glm CONFIG REQUIRED)
 find_package(SDL2 CONFIG REQUIRED)
-target_link_libraries(raytracer PRIVATE glm::glm-header-only SDL2::SDL2)
+find_package(SDL2_image CONFIG REQUIRED)
+target_link_libraries(raytracer PRIVATE glm::glm-header-only SDL2::SDL2 SDL2_image::SDL2_image)

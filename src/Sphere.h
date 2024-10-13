@@ -11,6 +11,8 @@ public:
     bool Hit(const Ray &r, Interval rayT, HitRecord &rec) const override;
     AABB BoundingBox() const override { return m_bbox; }
 
+    static void GetSphereUV(const glm::vec3 &p, float &u, float &v);
+
 private:
     Ray m_center;
     float m_radius;
