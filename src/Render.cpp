@@ -12,7 +12,8 @@ constexpr int MAX_DEPTH = 50;
 
 #define BOUNCING_SPHERES  1
 #define CHECKERED_SPHERES 2
-#define SCENE             CHECKERED_SPHERES
+#define EARTH             3
+#define SCENE             EARTH
 
 ImageInfo Render()
 {
@@ -80,6 +81,11 @@ ImageInfo Render()
 
     cam.defocusAngle = 0.6f;
     cam.focusDist = 10.f;
+
+    auto startTime = std::chrono::high_resolution_clock::now();
+    auto image = cam.Render(world);
+    auto duration = std::chrono::high_resolution_clock::now() - startTime;
+    INFO("Total time: {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 #elif SCENE == CHECKERED_SPHERES
     HittableList world;
 
@@ -99,14 +105,32 @@ ImageInfo Render()
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
 
     cam.defocusAngle = 0.f;
-#else
-    #error "Invalid scene"
-#endif
 
     auto startTime = std::chrono::high_resolution_clock::now();
     auto image = cam.Render(world);
     auto duration = std::chrono::high_resolution_clock::now() - startTime;
     INFO("Total time: {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
+#elif SCENE == EARTH
+    TexturePtr earthTexture = std::make_shared<ImageTexture>("assets/earthmap.jpg");
+    MaterialPtr earthSurface = std::make_shared<Lambertian>(earthTexture);
+    HittablePtr globe = std::make_shared<Sphere>(glm::vec3(0.f), 2.f, earthSurface);
+
+    Camera cam;
+    cam.aspectRatio = ASPECT_RATIO;
+    cam.imageWidth = IMAGE_WIDTH;
+    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
+    cam.maxDepth = MAX_DEPTH;
+
+    cam.vFov = 20;
+    cam.lookFrom = glm::vec3(0.f, 0.f, 12.f);
+    cam.lookAt = glm::vec3(0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+    auto image = cam.Render(HittableList(globe));
+#else
+    #error "Invalid scene"
+#endif
 
     return image;
 }
