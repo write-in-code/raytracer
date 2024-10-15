@@ -59,4 +59,7 @@ cmd_line = [CMAKE_CMD,
 print(f'> {cmd_line}')
 print('')
 
-subprocess.call(cmd_line, cwd=PROJECT_FOLDER)
+result = subprocess.call(cmd_line, cwd=PROJECT_FOLDER)
+if result != 0:
+    print(f'Error: CMake configuration failed with exit code {result}')
+    sys.exit(result)

@@ -82,10 +82,7 @@ ImageInfo Render()
     cam.defocusAngle = 0.6f;
     cam.focusDist = 10.f;
 
-    auto startTime = std::chrono::high_resolution_clock::now();
     auto image = cam.Render(world);
-    auto duration = std::chrono::high_resolution_clock::now() - startTime;
-    INFO("Total time: {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 #elif SCENE == CHECKERED_SPHERES
     HittableList world;
 
@@ -106,10 +103,7 @@ ImageInfo Render()
 
     cam.defocusAngle = 0.f;
 
-    auto startTime = std::chrono::high_resolution_clock::now();
     auto image = cam.Render(world);
-    auto duration = std::chrono::high_resolution_clock::now() - startTime;
-    INFO("Total time: {} ms", std::chrono::duration_cast<std::chrono::milliseconds>(duration).count());
 #elif SCENE == EARTH
     TexturePtr earthTexture = std::make_shared<ImageTexture>("assets/earthmap.jpg");
     MaterialPtr earthSurface = std::make_shared<Lambertian>(earthTexture);
@@ -127,6 +121,7 @@ ImageInfo Render()
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
 
     cam.defocusAngle = 0.f;
+
     auto image = cam.Render(HittableList(globe));
 #else
     #error "Invalid scene"

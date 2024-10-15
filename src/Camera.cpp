@@ -4,6 +4,7 @@
 ImageInfo Camera::Render(const Hittable &world)
 {
     Initialize();
+    _profblock();
 
     auto data = std::make_unique<glm::u8vec4[]>(imageWidth * m_imageHeight);
     for (int j = 0; j < m_imageHeight; ++j)

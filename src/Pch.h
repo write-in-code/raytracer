@@ -35,3 +35,5 @@
 #include "SmartPtr.h"
 #include "SDLDefs.h"
 #include "Utility.h"
+#include "NonCopyable.h"
+#include "ProfBlock.h"
