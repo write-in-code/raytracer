@@ -127,7 +127,7 @@ ImageInfo Render()
 #elif SCENE == PERLIN_SPHERES
     HittableList world;
 
-    TexturePtr pertext = std::make_shared<NoiseTexture>();
+    TexturePtr pertext = std::make_shared<NoiseTexture>(4.f);
     world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -1000.f, 0.f), 1000.f, std::make_shared<Lambertian>(pertext)));
     world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 2.f, 0.f), 2.f, std::make_shared<Lambertian>(pertext)));
 

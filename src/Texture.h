@@ -68,13 +68,15 @@ private:
 class NoiseTexture : public Texture
 {
 public:
-    NoiseTexture() = default;
+    NoiseTexture(float scale)
+        : m_scale(scale) {}
 
     glm::vec3 Value(float, float, const glm::vec3 &p) const override
     {
-        return glm::vec3(1.f) * m_noise.Noise(p);
+        return glm::vec3(1.f) * m_noise.Noise(m_scale * p);
     }
 
 private:
     Perlin m_noise;
+    float m_scale;
 };
