@@ -13,7 +13,8 @@ constexpr int MAX_DEPTH = 50;
 #define BOUNCING_SPHERES  1
 #define CHECKERED_SPHERES 2
 #define EARTH             3
-#define SCENE             EARTH
+#define PERLIN_SPHERES    4
+#define SCENE             PERLIN_SPHERES
 
 ImageInfo Render()
 {
@@ -123,6 +124,27 @@ ImageInfo Render()
     cam.defocusAngle = 0.f;
 
     auto image = cam.Render(HittableList(globe));
+#elif SCENE == PERLIN_SPHERES
+    HittableList world;
+
+    TexturePtr pertext = std::make_shared<NoiseTexture>();
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -1000.f, 0.f), 1000.f, std::make_shared<Lambertian>(pertext)));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 2.f, 0.f), 2.f, std::make_shared<Lambertian>(pertext)));
+
+    Camera cam;
+    cam.aspectRatio = ASPECT_RATIO;
+    cam.imageWidth = IMAGE_WIDTH;
+    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
+    cam.maxDepth = MAX_DEPTH;
+
+    cam.vFov = 20;
+    cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
+    cam.lookAt = glm::vec3(0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+
+    auto image = cam.Render(world);
 #else
     #error "Invalid scene"
 #endif
