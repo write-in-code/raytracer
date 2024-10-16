@@ -73,7 +73,7 @@ public:
 
     glm::vec3 Value(float, float, const glm::vec3 &p) const override
     {
-        return glm::vec3(1.f) * m_noise.Turb(p, 7);
+        return glm::vec3(.5f) * (1.f + glm::sin(m_scale * p.z + 10.f * m_noise.Turb(p, 7)));
     }
 
 private:
