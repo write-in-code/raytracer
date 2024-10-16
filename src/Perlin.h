@@ -11,7 +11,7 @@ private:
     static void Permute(int *p, int n);
 
     static constexpr int kPointCount = 256;
-    float m_randFloat[kPointCount];
+    glm::vec3 m_randVec[kPointCount];
     int m_permX[kPointCount];
     int m_permY[kPointCount];
     int m_permZ[kPointCount];
