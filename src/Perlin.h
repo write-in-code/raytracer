@@ -5,6 +5,7 @@ class Perlin
 public:
     Perlin();
     float Noise(const glm::vec3 &p) const;
+    float Turb(const glm::vec3 &p, int depth) const;
 
 private:
     static void PerlinGeneratePerm(int *p);

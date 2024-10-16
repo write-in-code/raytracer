@@ -65,6 +65,22 @@ float Perlin::Noise(const glm::vec3 &p) const
     return PerlinInterp(c, u, v, w);
 }
 
+float Perlin::Turb(const glm::vec3 &p, int depth) const
+{
+    float accum = 0.f;
+    glm::vec3 tempP = p;
+    float weight = 1.f;
+
+    for (int i = 0; i < depth; ++i)
+    {
+        accum += weight * Noise(tempP);
+        weight *= 0.5f;
+        tempP *= 2.f;
+    }
+
+    return glm::abs(accum);
+}
+
 void Perlin::PerlinGeneratePerm(int *p)
 {
     for (int i = 0; i < kPointCount; ++i)
