@@ -1,11 +1,15 @@
 #include "Pch.h"
 #include "AABB.h"
 
+const AABB AABB::Empty = AABB(Interval::Empty, Interval::Empty, Interval::Empty);
+const AABB AABB::Universe = AABB(Interval::Universe, Interval::Universe, Interval::Universe);
+
 AABB::AABB(const Interval &x, const Interval &y, const Interval &z)
     : x(x),
       y(y),
       z(z)
 {
+    PadToMinimums();
 }
 
 AABB::AABB(const glm::vec3 &a, const glm::vec3 &b)
@@ -13,6 +17,8 @@ AABB::AABB(const glm::vec3 &a, const glm::vec3 &b)
     x = (a.x <= b.x) ? Interval(a.x, b.x) : Interval(b.x, a.x);
     y = (a.y <= b.y) ? Interval(a.y, b.y) : Interval(b.y, a.y);
     z = (a.z <= b.z) ? Interval(a.z, b.z) : Interval(b.z, a.z);
+
+    PadToMinimums();
 }
 
 AABB::AABB(const AABB &box0, const AABB &box1)
@@ -96,5 +102,21 @@ int AABB::LongestAxis() const
     }
 }
 
-const AABB AABB::Empty = AABB(Interval::Empty, Interval::Empty, Interval::Empty);
-const AABB AABB::Universe = AABB(Interval::Universe, Interval::Universe, Interval::Universe);
+void AABB::PadToMinimums()
+{
+    constexpr float kDelta = 0.0001f;
+    if (x.Size() < kDelta)
+    {
+        x = x.Expand(kDelta);
+    }
+
+    if (y.Size() < kDelta)
+    {
+        y = y.Expand(kDelta);
+    }
+
+    if (z.Size() < kDelta)
+    {
+        z = z.Expand(kDelta);
+    }
+}

@@ -19,4 +19,7 @@ public:
     Interval z;
 
     static const AABB Empty, Universe;
+
+private:
+    void PadToMinimums();
 };
