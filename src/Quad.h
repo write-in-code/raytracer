@@ -10,11 +10,13 @@ public:
 
     AABB BoundingBox() const override { return m_bbox; }
     bool Hit(const Ray &r, Interval rayT, HitRecord &rec) const override;
+    virtual bool IsInterior(float a, float b, HitRecord &rec) const;
 
 private:
     glm::vec3 m_Q;
     glm::vec3 m_u;
     glm::vec3 m_v;
+    glm::vec3 m_w;
     MaterialPtr m_mat;
     AABB m_bbox;
     glm::vec3 m_normal;

@@ -1,20 +1,17 @@
 #include "Pch.h"
 #include "Render.h"
 #include "Camera.h"
+#include "Quad.h"
 #include "Sphere.h"
 #include "BVHNode.h"
 #include "Texture.h"
-
-constexpr float ASPECT_RATIO = 16.f / 9.f;
-constexpr int IMAGE_WIDTH = 400;
-constexpr int SAMPLES_PER_PIXEL = 100;
-constexpr int MAX_DEPTH = 50;
 
 #define BOUNCING_SPHERES  1
 #define CHECKERED_SPHERES 2
 #define EARTH             3
 #define PERLIN_SPHERES    4
-#define SCENE             PERLIN_SPHERES
+#define QUADS             5
+#define SCENE             QUADS
 
 ImageInfo Render()
 {
@@ -70,10 +67,10 @@ ImageInfo Render()
     world = HittableList(std::make_shared<BVHNode>(world));
 
     Camera cam;
-    cam.aspectRatio = ASPECT_RATIO;
-    cam.imageWidth = IMAGE_WIDTH;
-    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
-    cam.maxDepth = MAX_DEPTH;
+    cam.aspectRatio = 16.f / 9.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
@@ -92,10 +89,10 @@ ImageInfo Render()
     world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 10.f, 0.f), 10.f, std::make_shared<Lambertian>(checker)));
 
     Camera cam;
-    cam.aspectRatio = ASPECT_RATIO;
-    cam.imageWidth = IMAGE_WIDTH;
-    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
-    cam.maxDepth = MAX_DEPTH;
+    cam.aspectRatio = 16.f / 9.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
@@ -111,10 +108,10 @@ ImageInfo Render()
     HittablePtr globe = std::make_shared<Sphere>(glm::vec3(0.f), 2.f, earthSurface);
 
     Camera cam;
-    cam.aspectRatio = ASPECT_RATIO;
-    cam.imageWidth = IMAGE_WIDTH;
-    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
-    cam.maxDepth = MAX_DEPTH;
+    cam.aspectRatio = 16.f / 9.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(0.f, 0.f, 12.f);
@@ -132,13 +129,42 @@ ImageInfo Render()
     world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 2.f, 0.f), 2.f, std::make_shared<Lambertian>(pertext)));
 
     Camera cam;
-    cam.aspectRatio = ASPECT_RATIO;
-    cam.imageWidth = IMAGE_WIDTH;
-    cam.samplesPerPixel = SAMPLES_PER_PIXEL;
-    cam.maxDepth = MAX_DEPTH;
+    cam.aspectRatio = 16.f / 9.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
+    cam.lookAt = glm::vec3(0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+
+    auto image = cam.Render(world);
+#elif SCENE == QUADS
+    HittableList world;
+
+    MaterialPtr leftRed = std::make_shared<Lambertian>(glm::vec3(1.f, 0.2f, 0.2f));
+    MaterialPtr blackGreen = std::make_shared<Lambertian>(glm::vec3(0.2f, 1.f, 0.2f));
+    MaterialPtr rightBlue = std::make_shared<Lambertian>(glm::vec3(0.2f, 0.2f, 1.f));
+    MaterialPtr upperOrange = std::make_shared<Lambertian>(glm::vec3(1.f, 0.5f, 0.f));
+    MaterialPtr lowerTeal = std::make_shared<Lambertian>(glm::vec3(0.2f, 0.8f, 0.8f));
+
+    world.Add(std::make_shared<Quad>(glm::vec3(-3.f, -2.f, 5.f), glm::vec3(0.f, 0.f, -4.f), glm::vec3(0.f, 4.f, 0.f), leftRed));
+    world.Add(std::make_shared<Quad>(glm::vec3(-2.f, -2.f, 0.f), glm::vec3(4.f, 0.f, 0.f), glm::vec3(0.f, 4.f, 0.f), blackGreen));
+    world.Add(std::make_shared<Quad>(glm::vec3(3.f, -2.f, 1.f), glm::vec3(0.f, 0.f, 4.f), glm::vec3(0.f, 4.f, 0.f), rightBlue));
+    world.Add(std::make_shared<Quad>(glm::vec3(-2.f, 3.f, 1.f), glm::vec3(4.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 4.f), upperOrange));
+    world.Add(std::make_shared<Quad>(glm::vec3(-2.f, -3.f, 5.f), glm::vec3(4.f, 0.f, 0.f), glm::vec3(0.f, 0.f, -4.f), lowerTeal));
+
+    Camera cam;
+    cam.aspectRatio = 1.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
+
+    cam.vFov = 80;
+    cam.lookFrom = glm::vec3(0.f, 0.f, 9.f);
     cam.lookAt = glm::vec3(0.f);
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
 
