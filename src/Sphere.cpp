@@ -50,7 +50,7 @@ bool Sphere::Hit(const Ray &r, Interval rayT, HitRecord &rec) const
     rec.t = root;
     rec.p = r.At(rec.t);
     glm::vec3 outwardNormal = (rec.p - currentCenter) / m_radius;
-    rec.setFaceNormal(r, outwardNormal);
+    rec.SetFaceNormal(r, outwardNormal);
     GetSphereUV(outwardNormal, rec.u, rec.v);
     rec.mat = m_mat;
 
