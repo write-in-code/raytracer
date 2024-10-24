@@ -12,7 +12,8 @@
 #define PERLIN_SPHERES    4
 #define QUADS             5
 #define SIMPLE_LIGHT      6
-#define SCENE             SIMPLE_LIGHT
+#define CORNELL_BOX       7
+#define SCENE             CORNELL_BOX
 
 ImageInfo Render()
 {
@@ -198,6 +199,36 @@ ImageInfo Render()
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(26.f, 3.f, 6.f);
     cam.lookAt = glm::vec3(0.f, 2.f, 0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+
+    auto image = cam.Render(world);
+#elif SCENE == CORNELL_BOX
+    HittableList world;
+
+    MaterialPtr red = std::make_shared<Lambertian>(glm::vec3(0.65f, 0.05f, 0.05f));
+    MaterialPtr white = std::make_shared<Lambertian>(glm::vec3(0.73f));
+    MaterialPtr green = std::make_shared<Lambertian>(glm::vec3(0.12f, 0.45f, 0.15f));
+    MaterialPtr light = std::make_shared<DiffuseLight>(glm::vec3(15.f));
+
+    world.Add(std::make_shared<Quad>(glm::vec3(555.f, 0.f, 0.f), glm::vec3(0.f, 555.f, 0.f), glm::vec3(0.f, 0.f, 555.f), green));
+    world.Add(std::make_shared<Quad>(glm::vec3(0.f), glm::vec3(0.f, 555.f, 0.f), glm::vec3(0.f, 0.f, 555.f), red));
+    world.Add(std::make_shared<Quad>(glm::vec3(343.f, 554.f, 332.f), glm::vec3(-130.f, 0.f, 0.f), glm::vec3(0.f, 0.f, -105.f), light));
+    world.Add(std::make_shared<Quad>(glm::vec3(0.f), glm::vec3(555.f, 0.f, 0.f), glm::vec3(0.f, 0.f, 555.f), white));
+    world.Add(std::make_shared<Quad>(glm::vec3(555.f), glm::vec3(-555.f, 0.f, 0.f), glm::vec3(0.f, 0.f, -555.f), white));
+    world.Add(std::make_shared<Quad>(glm::vec3(0.f, 0.f, 555.f), glm::vec3(555.f, 0.f, 0.f), glm::vec3(0.f, 555.f, 0.f), white));
+
+    Camera cam;
+    cam.aspectRatio = 1.f;
+    cam.imageWidth = 600;
+    cam.samplesPerPixel = 200;
+    cam.maxDepth = 50;
+    cam.background = glm::vec3(0.f);
+
+    cam.vFov = 40;
+    cam.lookFrom = glm::vec3(278.f, 278.f, -800.f);
+    cam.lookAt = glm::vec3(278.f, 278.f, 0.f);
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
 
     cam.defocusAngle = 0.f;
