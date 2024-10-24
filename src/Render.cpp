@@ -71,6 +71,7 @@ ImageInfo Render()
     cam.imageWidth = 400;
     cam.samplesPerPixel = 100;
     cam.maxDepth = 50;
+    cam.background = glm::vec3(0.7f, 0.8f, 1.f);
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
@@ -93,6 +94,7 @@ ImageInfo Render()
     cam.imageWidth = 400;
     cam.samplesPerPixel = 100;
     cam.maxDepth = 50;
+    cam.background = glm::vec3(0.7f, 0.8f, 1.f);
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
@@ -112,6 +114,7 @@ ImageInfo Render()
     cam.imageWidth = 400;
     cam.samplesPerPixel = 100;
     cam.maxDepth = 50;
+    cam.background = glm::vec3(0.7f, 0.8f, 1.f);
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(0.f, 0.f, 12.f);
@@ -133,6 +136,7 @@ ImageInfo Render()
     cam.imageWidth = 400;
     cam.samplesPerPixel = 100;
     cam.maxDepth = 50;
+    cam.background = glm::vec3(0.7f, 0.8f, 1.f);
 
     cam.vFov = 20;
     cam.lookFrom = glm::vec3(13.f, 2.f, 3.f);
@@ -162,6 +166,7 @@ ImageInfo Render()
     cam.imageWidth = 400;
     cam.samplesPerPixel = 100;
     cam.maxDepth = 50;
+    cam.background = glm::vec3(0.7f, 0.8f, 1.f);
 
     cam.vFov = 80;
     cam.lookFrom = glm::vec3(0.f, 0.f, 9.f);

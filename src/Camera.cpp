@@ -96,19 +96,20 @@ glm::vec3 Camera::RayColor(const Ray &r, int depth, const Hittable &world) const
     }
 
     HitRecord rec;
-    if (world.Hit(r, Interval(0.001f, std::numeric_limits<float>::infinity()), rec))
+    if (!world.Hit(r, Interval(0.001f, std::numeric_limits<float>::infinity()), rec))
     {
-        Ray scattered;
-        glm::vec3 attenuation;
-        if (rec.mat->Scatter(r, rec, attenuation, scattered))
-        {
-            return attenuation * RayColor(scattered, depth - 1, world);
-        }
-
-        return glm::vec3(0.f);
+        return background;
     }
 
-    glm::vec3 unitDirection = glm::normalize(r.Direction());
-    float a = 0.5f * (unitDirection.y + 1.0f);
-    return glm::mix(glm::vec3(1.f), glm::vec3(0.5f, 0.7f, 1.f), a);
+    Ray scattered;
+    glm::vec3 attenuation;
+    glm::vec3 colorFromEmission = rec.mat->Emitted(rec.u, rec.v, rec.p);
+
+    if (!rec.mat->Scatter(r, rec, attenuation, scattered))
+    {
+        return colorFromEmission;
+    }
+
+    glm::vec3 colorFromScatter = attenuation * RayColor(scattered, depth - 1, world);
+    return colorFromEmission + colorFromScatter;
 }

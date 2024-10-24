@@ -12,6 +12,8 @@ public:
     int imageWidth = 100;
     int samplesPerPixel = 10;
     int maxDepth = 10;
+    glm::vec3 background = glm::vec3(0.f);
+
     float vFov = 90;
     glm::vec3 lookFrom = glm::vec3(0.f);
     glm::vec3 lookAt = glm::vec3(0.f, 0.f, -1.f);
