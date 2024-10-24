@@ -11,7 +11,8 @@
 #define EARTH             3
 #define PERLIN_SPHERES    4
 #define QUADS             5
-#define SCENE             QUADS
+#define SIMPLE_LIGHT      6
+#define SCENE             SIMPLE_LIGHT
 
 ImageInfo Render()
 {
@@ -171,6 +172,32 @@ ImageInfo Render()
     cam.vFov = 80;
     cam.lookFrom = glm::vec3(0.f, 0.f, 9.f);
     cam.lookAt = glm::vec3(0.f);
+    cam.vUp = glm::vec3(0.f, 1.f, 0.f);
+
+    cam.defocusAngle = 0.f;
+
+    auto image = cam.Render(world);
+#elif SCENE == SIMPLE_LIGHT
+    HittableList world;
+
+    TexturePtr pertext = std::make_shared<NoiseTexture>(4.f);
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, -1000.f, 0.f), 1000.f, std::make_shared<Lambertian>(pertext)));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 2.f, 0.f), 2.f, std::make_shared<Lambertian>(pertext)));
+
+    MaterialPtr difflight = std::make_shared<DiffuseLight>(glm::vec3(4.f));
+    world.Add(std::make_shared<Sphere>(glm::vec3(0.f, 7.f, 0.f), 2.f, difflight));
+    world.Add(std::make_shared<Quad>(glm::vec3(3.f, 1.f, -2.f), glm::vec3(2.f, 0.f, 0.f), glm::vec3(0.f, 2.f, 0.f), difflight));
+
+    Camera cam;
+    cam.aspectRatio = 16.f / 9.f;
+    cam.imageWidth = 400;
+    cam.samplesPerPixel = 100;
+    cam.maxDepth = 50;
+    cam.background = glm::vec3(0.f);
+
+    cam.vFov = 20;
+    cam.lookFrom = glm::vec3(26.f, 3.f, 6.f);
+    cam.lookAt = glm::vec3(0.f, 2.f, 0.f);
     cam.vUp = glm::vec3(0.f, 1.f, 0.f);
 
     cam.defocusAngle = 0.f;
