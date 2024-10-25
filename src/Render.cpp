@@ -219,6 +219,9 @@ ImageInfo Render()
     world.Add(std::make_shared<Quad>(glm::vec3(555.f), glm::vec3(-555.f, 0.f, 0.f), glm::vec3(0.f, 0.f, -555.f), white));
     world.Add(std::make_shared<Quad>(glm::vec3(0.f, 0.f, 555.f), glm::vec3(555.f, 0.f, 0.f), glm::vec3(0.f, 555.f, 0.f), white));
 
+    world.Add(Box(glm::vec3(130.f, 0.f, 65.f), glm::vec3(295.f, 165.f, 230.f), white));
+    world.Add(Box(glm::vec3(265.f, 0.f, 295.f), glm::vec3(430.f, 330.f, 460.f), white));
+
     Camera cam;
     cam.aspectRatio = 1.f;
     cam.imageWidth = 600;

@@ -1,6 +1,8 @@
 #pragma once
 #include "Hittable.h"
 
+DEFINE_CLASS_PTR(HittableList);
+
 class HittableList : public Hittable
 {
 public:

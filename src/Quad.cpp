@@ -1,5 +1,7 @@
 #include "Pch.h"
 #include "Quad.h"
+#include "HittableList.h"
+#include "Material.h"
 
 Quad::Quad(const glm::vec3 &Q, const glm::vec3 &u, const glm::vec3 &v, const MaterialPtr &mat)
     : m_Q(Q),
@@ -67,4 +69,25 @@ bool Quad::IsInterior(float a, float b, HitRecord &rec) const
     rec.u = a;
     rec.v = b;
     return true;
+}
+
+HittableListPtr Box(const glm::vec3 &a, const glm::vec3 &b, const MaterialPtr &mat)
+{
+    HittableListPtr sides = std::make_shared<HittableList>();
+
+    glm::vec3 min = glm::min(a, b);
+    glm::vec3 max = glm::max(a, b);
+
+    glm::vec3 dx = glm::vec3(max.x - min.x, 0.f, 0.f);
+    glm::vec3 dy = glm::vec3(0.f, max.y - min.y, 0.f);
+    glm::vec3 dz = glm::vec3(0.f, 0.f, max.z - min.z);
+
+    sides->Add(std::make_shared<Quad>(glm::vec3(min.x, min.y, max.z), dx, dy, mat));
+    sides->Add(std::make_shared<Quad>(glm::vec3(max.x, min.y, max.z), -dz, dy, mat));
+    sides->Add(std::make_shared<Quad>(glm::vec3(max.x, min.y, min.z), -dx, dy, mat));
+    sides->Add(std::make_shared<Quad>(glm::vec3(min.x, min.y, min.z), dz, dy, mat));
+    sides->Add(std::make_shared<Quad>(glm::vec3(min.x, max.y, max.z), dx, -dz, mat));
+    sides->Add(std::make_shared<Quad>(glm::vec3(min.x, min.y, min.z), dx, dz, mat));
+
+    return sides;
 }

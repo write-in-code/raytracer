@@ -22,3 +22,8 @@ private:
     glm::vec3 m_normal;
     float m_D;
 };
+
+DEFINE_CLASS_PTR(HittableList);
+DEFINE_CLASS_PTR(Material);
+
+HittableListPtr Box(const glm::vec3 &a, const glm::vec3 &b, const MaterialPtr &mat);

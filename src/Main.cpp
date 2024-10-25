@@ -15,7 +15,7 @@ constexpr const char *imagePath = "renders";
 constexpr const char *imageName = "render";
 
 #if RENDER_TO_WINDOW
-constexpr int WINDOW_SIZE_MULT = 3;
+constexpr int WINDOW_SIZE_MULT = 2;
 
 int RenderToWindow(const ImageInfo &imageInfo);
 #endif
