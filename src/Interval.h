@@ -39,3 +39,13 @@ struct Interval
 
 inline const Interval Interval::Empty = Interval(std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity());
 inline const Interval Interval::Universe = Interval(-std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity());
+
+inline Interval operator+(const Interval &ival, float displacement)
+{
+    return Interval(ival.min + displacement, ival.max + displacement);
+}
+
+inline Interval operator+(float displacement, const Interval &ival)
+{
+    return ival + displacement;
+}

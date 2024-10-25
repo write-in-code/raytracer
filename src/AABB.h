@@ -23,3 +23,13 @@ public:
 private:
     void PadToMinimums();
 };
+
+inline AABB operator+(const AABB &box, const glm::vec3 &offset)
+{
+    return AABB(box.x + offset.x, box.y + offset.y, box.z + offset.z);
+}
+
+inline AABB operator+(const glm::vec3 &offset, const AABB &box)
+{
+    return box + offset;
+}
