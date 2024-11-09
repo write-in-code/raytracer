@@ -47,3 +47,17 @@ private:
     glm::vec3 m_offset;
     AABB m_bbox;
 };
+
+class RotateY : public Hittable
+{
+public:
+    RotateY(const HittablePtr &object, float angle);
+    bool Hit(const Ray &r, Interval rayT, HitRecord &rec) const override;
+    AABB BoundingBox() const override { return m_bbox; }
+
+private:
+    HittablePtr m_object;
+    float m_sinTheta;
+    float m_cosTheta;
+    AABB m_bbox;
+};
