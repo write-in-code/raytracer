@@ -72,3 +72,17 @@ public:
 private:
     TexturePtr m_tex;
 };
+
+class Isotropic : public Material
+{
+public:
+    Isotropic(const glm::vec3 &albedo)
+        : m_tex(std::make_shared<SolidColor>(albedo)) {}
+    Isotropic(const TexturePtr &tex)
+        : m_tex(tex) {}
+
+    bool Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const override;
+
+private:
+    TexturePtr m_tex;
+};

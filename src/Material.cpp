@@ -44,3 +44,10 @@ bool Dielectric::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenu
     scattered = Ray(rec.p, direction, rIn.Time());
     return true;
 }
+
+bool Isotropic::Scatter(const Ray &rIn, const HitRecord &rec, glm::vec3 &attenuation, Ray &scattered) const
+{
+    scattered = Ray(rec.p, RandomUnitVec(), rIn.Time());
+    attenuation = m_tex->Value(rec.u, rec.v, rec.p);
+    return true;
+}
